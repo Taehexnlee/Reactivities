@@ -13,3 +13,4 @@
 /Users/leeteaheon/Reactivities/Persistence/obj/Debug/net8.0/refint/Persistence.dll
 /Users/leeteaheon/Reactivities/Persistence/obj/Debug/net8.0/Persistence.pdb
 /Users/leeteaheon/Reactivities/Persistence/obj/Debug/net8.0/ref/Persistence.dll
+/Users/leeteaheon/Reactivities/Persistence/obj/Debug/net8.0/Persistence.sourcelink.json
