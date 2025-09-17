@@ -11,8 +11,6 @@ type Props ={
   openForm: (id:string) => void;
   closeForm: () => void;
   editMode: boolean
-  submitForm: (activity: Activity) => void
-  deleteActivity: (id: string) => void;
 }
 
 export default function ActivityDashBoard({
@@ -23,8 +21,6 @@ export default function ActivityDashBoard({
   openForm,
   closeForm,
   editMode, 
-  submitForm,
-  deleteActivity
 }: Props) {
   return (
     <Grid container>
@@ -32,14 +28,13 @@ export default function ActivityDashBoard({
         <ActivityList
           activities={activities}
           selectActivity={selectActivity}
-          deleteActivity = {deleteActivity}
         />
       </Grid>
 
       <Grid size={5}>
         {selectedActivity && !editMode && (
           <ActivityDetail
-            activity={selectedActivity}
+            selectedActivity={selectedActivity}
             cancelSelectActivity={cancelSelectActivity}
             openForm={openForm}
           />
@@ -49,7 +44,6 @@ export default function ActivityDashBoard({
           <ActivityForm
             activity={selectedActivity}            // ✅ 폼에 activity 전달
             closeForm={closeForm}
-            submitForm = {submitForm}    // ✅ activity 변경 시 리마운트
           />
         )}
       </Grid>
