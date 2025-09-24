@@ -12,6 +12,12 @@
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "zod": ["./src/lib/zod-compat.ts"],
+      "zod/*": ["./node_modules/zod/*"],
+      "zod-actual": ["./node_modules/zod/index.d.ts"]
+    },
 
     /* Linting */
     "strict": true,
