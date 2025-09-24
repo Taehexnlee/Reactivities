@@ -11,6 +11,7 @@
           "AutoMapper": "13.0.1",
           "Domain": "1.0.0",
           "MediatR": "13.0.0",
+          "Net4x.FluentValidation.DependencyInjectionExtensions": "11.5.2",
           "Persistence": "1.0.0"
         },
         "runtime": {
@@ -261,6 +262,110 @@
           "lib/net8.0/Microsoft.IdentityModel.Tokens.dll": {
             "assemblyVersion": "8.0.1.0",
             "fileVersion": "8.0.1.50722"
+          }
+        }
+      },
+      "Net30.LinqBridge/1.3.0": {
+        "dependencies": {
+          "Net35.Actions": "1.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Net30.LinqBridge.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.3.14717.2012"
+          }
+        }
+      },
+      "Net35.Actions/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Net35.Actions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net35.Threading.Tasks/1.1.0": {
+        "dependencies": {
+          "Net35.Actions": "1.1.0",
+          "Net35.TypeInfo": "1.1.0",
+          "Net4x.ValueTuple": "1.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Net35.Threading.Tasks.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net35.TypeInfo/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Net35.TypeInfo.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net4x.AsyncBridge/1.1.0": {
+        "dependencies": {
+          "Net35.Threading.Tasks": "1.1.0",
+          "Net35.TypeInfo": "1.1.0",
+          "Net4x.BaseTypes": "1.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Net4x.AsyncBridge.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net4x.BaseTypes/1.1.0": {
+        "dependencies": {
+          "Net30.LinqBridge": "1.3.0",
+          "Net35.Actions": "1.1.0",
+          "Net35.Threading.Tasks": "1.1.0",
+          "Net35.TypeInfo": "1.1.0",
+          "Net4x.ValueTuple": "1.1.0"
+        },
+        "runtime": {
+          "lib/net6.0/Net4x.BaseTypes.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net4x.FluentValidation.DependencyInjectionExtensions/11.5.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Net35.Actions": "1.1.0",
+          "Net4x.AsyncBridge": "1.1.0",
+          "Net4x.BaseTypes": "1.1.0",
+          "Net4x.FluentValidation.Library": "11.5.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.5.2.0"
+          }
+        }
+      },
+      "Net4x.FluentValidation.Library/11.5.2": {
+        "dependencies": {
+          "Net35.Actions": "1.1.0",
+          "Net4x.AsyncBridge": "1.1.0",
+          "Net4x.BaseTypes": "1.1.0"
+        },
+        "runtime": {
+          "lib/net7.0/FluentValidation.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Net4x.ValueTuple/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.1/Net4x.ValueTuple.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -598,6 +703,69 @@
       "sha512": "sha512-kDimB6Dkd3nkW2oZPDkMkVHfQt3IDqO5gL0oa8WVy3OP4uE8Ij+8TXnqg9TOd9ufjsY3IDiGz7pCUbnfL18tjg==",
       "path": "microsoft.identitymodel.tokens/8.0.1",
       "hashPath": "microsoft.identitymodel.tokens.8.0.1.nupkg.sha512"
+    },
+    "Net30.LinqBridge/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DlxQjnIVLqUnTObqry+qN2Ydzz2nx/wJTDeWHAQCBq6zB8VB5iGbsZnL9i+DIlunkb+4kp9r6nyEPuasL9m4MA==",
+      "path": "net30.linqbridge/1.3.0",
+      "hashPath": "net30.linqbridge.1.3.0.nupkg.sha512"
+    },
+    "Net35.Actions/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kzoFqmSrtX7lyEUzF+K/YNllfoorKlaJupNgS2+9m/CuVEGEXm0eweRetl+idm2scHKUd4lexIC3WEQZNhHyIQ==",
+      "path": "net35.actions/1.1.0",
+      "hashPath": "net35.actions.1.1.0.nupkg.sha512"
+    },
+    "Net35.Threading.Tasks/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fmhQIezhsx9kljDhoM1WASO4vMtBLNC4O6c7YDXOU9HaY4+FNlebbyqwP6U7PL3nad8nW8yMNqSr0DYUdGz0yA==",
+      "path": "net35.threading.tasks/1.1.0",
+      "hashPath": "net35.threading.tasks.1.1.0.nupkg.sha512"
+    },
+    "Net35.TypeInfo/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I3oQHGhsJTujwESes+G5VUTJjpYW2oE0pfd2N1pTdNqND3hy6uUQ5cegOXan/5J3c0bOTt+/U9yhHB6N6/mzkw==",
+      "path": "net35.typeinfo/1.1.0",
+      "hashPath": "net35.typeinfo.1.1.0.nupkg.sha512"
+    },
+    "Net4x.AsyncBridge/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WghAhaQGKP55sw4VI1Hyiqx0jmZL1KkkURS3UKcQmlEMua3c9/yEm2sasqTmUdee080iy1WiOc0QEtZRCPVykQ==",
+      "path": "net4x.asyncbridge/1.1.0",
+      "hashPath": "net4x.asyncbridge.1.1.0.nupkg.sha512"
+    },
+    "Net4x.BaseTypes/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fGC+Go/qMq492l8dgcJQWGcJc1WdMnObadXvcKB4TnlT5mKpgVDI37ihIZ0n/qT+ZYULIgG1NfN6G7nq66jBtQ==",
+      "path": "net4x.basetypes/1.1.0",
+      "hashPath": "net4x.basetypes.1.1.0.nupkg.sha512"
+    },
+    "Net4x.FluentValidation.DependencyInjectionExtensions/11.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RrgpKPYi9mE++jtWJRseUvf/wM51XwCpLUHxS4YPthk9jlheMXemOzF2TSq29x9y1jtYNy29nn1wROx/2OgsOA==",
+      "path": "net4x.fluentvalidation.dependencyinjectionextensions/11.5.2",
+      "hashPath": "net4x.fluentvalidation.dependencyinjectionextensions.11.5.2.nupkg.sha512"
+    },
+    "Net4x.FluentValidation.Library/11.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6cE0EWf/M7sQymAa7AsvP6pHAcYy0RiZIHcGo4ARei805L/Q/RE9YBt0Q8KwnmdXK7detQaDswlPB1xBBgy0xA==",
+      "path": "net4x.fluentvalidation.library/11.5.2",
+      "hashPath": "net4x.fluentvalidation.library.11.5.2.nupkg.sha512"
+    },
+    "Net4x.ValueTuple/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I7I7EnujuTEurbJdeirkww86W/IThl7TznhemowW84ByroSFx3ORFfZBt4rMwdB/vOTDT4zPrfqWYXb8+9rGLg==",
+      "path": "net4x.valuetuple/1.1.0",
+      "hashPath": "net4x.valuetuple.1.1.0.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.6": {
       "type": "package",

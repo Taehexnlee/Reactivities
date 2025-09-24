@@ -13,5 +13,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="DTOs/" />
+  </ItemGroup>
 
 </Project>

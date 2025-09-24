@@ -2,7 +2,7 @@ using System;
 
 namespace Application.Activities.DTOs;
 
-public class EditActivityDto
+public class EditActivityDto : BaseActivityDto
 {
     public string Id { get; set; } = string.Empty;
 
