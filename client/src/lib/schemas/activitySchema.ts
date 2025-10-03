@@ -1,10 +1,7 @@
 import { z } from 'zod';
+import { requiredString } from '../util/util';
 
-const requiredString = (fieldName: string) =>
-  z
-    .string()
-    .trim()
-    .min(1, { message: `${fieldName} is required` });
+
 
 const requiredCoordinate = (fieldName: string, min: number, max: number) =>
   z
