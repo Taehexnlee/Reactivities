@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useActivities } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
 import { useForm } from 'react-hook-form';
@@ -53,35 +53,87 @@ export default function ActivityForm() {
 
   if (isLoadingActivity) return <Typography>Loading... </Typography>
 
+  const isMutating = updateActivity.isPending || createActivity.isPending;
+
   return (
-    <Paper sx={{ borderRadius: 3, padding: 3 }}>
-      <Typography variant="h5" gutterBottom color="primary">
-        {activity ? 'Edit Activity' : 'Create Activity'}
-      </Typography>
+    <Paper sx={{ p: { xs: 3, md: 4 } }}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
+          <Box>
+            <Typography variant="overline" color="text.secondary">
+              {activity ? "Update an activity" : "Create a new experience"}
+            </Typography>
+            <Typography variant="h5" color="primary" fontWeight={700}>
+              {activity ? "Edit Activity" : "Create Activity"}
+            </Typography>
+          </Box>
 
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} display="flex" flexDirection="column" gap={3}>
-        <TextInput label="Title" control={control} name="title" />
-        <TextInput label="Description" control={control} name="description" multiline rows={3} />
-        <Box display='flex' gap={3}>
-          <SelectInput items={categoryOptions} label="Category" control={control} name="category" />
-          <DateTimeInput
+          <Stack spacing={2}>
+            <Typography variant="subtitle1" fontWeight={600}>
+              Basics
+            </Typography>
+            <TextInput label="Title" control={control} name="title" placeholder="Give your activity a memorable name" />
+            <TextInput
+              label="Description"
+              control={control}
+              name="description"
+              multiline
+              rows={4}
+              placeholder="What makes this activity worth attending?"
+            />
+          </Stack>
 
-            label="Date"
-            control={control}
-            name="date"
-          />
+          <Divider flexItem />
 
-        </Box>
+          <Stack spacing={2}>
+            <Typography variant="subtitle1" fontWeight={600}>
+              Schedule
+            </Typography>
+            <Box
+              sx={{
+                display: "grid",
+                gap: 2,
+                gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+              }}
+            >
+              <SelectInput items={categoryOptions} label="Category" control={control} name="category" />
+              <DateTimeInput label="Date & Time" control={control} name="date" minutesStep={15} />
+            </Box>
+          </Stack>
 
-        <LocationInput control={control} label="Enter the location" name="location" />
+          <Divider flexItem />
 
+          <Stack spacing={2}>
+            <Typography variant="subtitle1" fontWeight={600}>
+              Location
+            </Typography>
+            <LocationInput control={control} label="Search for a venue or address" name="location" />
+          </Stack>
 
-        <Box display="flex" justifyContent="end" gap={3}>
-          <Button color="inherit">Cancel</Button>
-          <Button type='submit' color="success" variant="contained" disabled={updateActivity.isPending || createActivity.isPending}>
-            Submit
-          </Button>
-        </Box>
+          <Divider flexItem />
+
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 2,
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              All fields are required to publish an activity.
+            </Typography>
+            <Box display="flex" gap={2}>
+              <Button color="inherit" onClick={() => navigate(-1)}>
+                Cancel
+              </Button>
+              <Button type="submit" color="success" variant="contained" disabled={isMutating}>
+                {isMutating ? "Saving..." : "Submit"}
+              </Button>
+            </Box>
+          </Box>
+        </Stack>
       </Box>
     </Paper>
   );

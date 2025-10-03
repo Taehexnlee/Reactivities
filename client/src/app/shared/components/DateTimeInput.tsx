@@ -24,6 +24,8 @@ export default function DateTimeInput<T extends FieldValues>({
     defaultValue,
   });
 
+  const { slotProps, ...restPickerProps } = pickerProps;
+
   // Normalize the RHF field value for the picker.
   const rawValue = field.value as Date | string | number | null | undefined;
   const value =
@@ -35,17 +37,18 @@ export default function DateTimeInput<T extends FieldValues>({
 
   return (
     <DateTimePicker
-      {...pickerProps}
+      {...restPickerProps}
       value={value}
       onChange={(val) => field.onChange(val ?? null)}
       slotProps={{
+        ...slotProps,
         textField: {
+          ...slotProps?.textField,
           onBlur: field.onBlur,
           fullWidth: true,
           variant: "outlined",
           error: !!fieldState.error,
           helperText: fieldState.error?.message,
-          // Label flows through pickerProps automatically.
         },
       }}
     />

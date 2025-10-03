@@ -1,8 +1,8 @@
 import { CalendarToday, Info, Place } from "@mui/icons-material";
-import { Box, Button, Divider, Grid,  Paper, Typography } from "@mui/material";
+import { Box, Button, Collapse, Divider, Paper, Stack, Typography } from "@mui/material";
 import { formatDate } from "../../../lib/util/util";
 import type { Activity } from "src/lib/types";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import MapComponents from "src/app/shared/components/MapComponents";
 
 type Props ={
@@ -10,48 +10,86 @@ type Props ={
 }
 export default function ActivityDetailsInfo({activity}: Props) {
     const [mapOpen, setMapOpen] = useState(false);
+
+    const renderIcon = (icon: ReactNode) => (
+        <Box
+            sx={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                display: "grid",
+                placeItems: "center",
+                bgcolor: "primary.light",
+                color: "common.white",
+                boxShadow: "0 6px 18px rgba(31, 111, 235, 0.25)",
+                flexShrink: 0,
+            }}
+        >
+            {icon}
+        </Box>
+    );
+
     return (
-        <Paper sx={{ mb: 2 }}>
+        <Paper sx={{ mb: 2, p: { xs: 3, md: 4 } }}>
+            <Stack spacing={3} divider={<Divider flexItem />}>
+                <Stack direction="row" spacing={3} alignItems="flex-start">
+                    {renderIcon(<Info fontSize="medium" />)}
+                    <Box>
+                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                            Overview
+                        </Typography>
+                        <Typography variant="body1">{activity.description}</Typography>
+                    </Box>
+                </Stack>
 
-            <Grid container alignItems="center" pl={2} py={1}>
-                <Grid size={1}>
-                    <Info color="info" fontSize="large" />
-                </Grid>
-                <Grid size={11}>
-                    <Typography>{activity.description}</Typography>
-                </Grid>
-            </Grid>
-            <Divider />
-            <Grid container alignItems="center" pl={2} py={1}>
-                <Grid size={1}>
-                    <CalendarToday color="info" fontSize="large" />
-                </Grid>
-                <Grid size={11}>
-                    <Typography>{formatDate(activity.date)}</Typography>
-                </Grid>
-            </Grid>
-            <Divider />
+                <Stack direction="row" spacing={3} alignItems="center">
+                    {renderIcon(<CalendarToday fontSize="medium" />)}
+                    <Box>
+                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                            Date & Time
+                        </Typography>
+                        <Typography variant="body1" fontWeight={600}>
+                            {formatDate(activity.date)}
+                        </Typography>
+                    </Box>
+                </Stack>
 
-            <Grid container alignItems="center" pl={2} py={1}>
-                <Grid size={1}>
-                    <Place color="info" fontSize="large" />
-                </Grid>
-                <Grid size={11} display= 'flex' justifyContent='space-between' alignItems='center'>
-                    <Typography>
-                        {activity.venue}, {activity.city}
-                    </Typography>
-                    <Button onClick={() => setMapOpen(!mapOpen)}>
-                        {mapOpen ? 'Hide map' : 'Show map'}
-                    </Button>
-                </Grid>
-            </Grid>
-            {mapOpen && (
-                <Box sx={{height: 400, zIndex: 1000, display:'block'}}>
-                    <MapComponents 
-                        position={[activity.latitude, activity.longitude]} 
-                        venue={activity.venue}/>
-                </Box>
-            )}
+                <Stack spacing={2}>
+                    <Stack direction={{ xs: "column", sm: "row" }} spacing={3} alignItems={{ xs: "flex-start", sm: "center" }}>
+                        {renderIcon(<Place fontSize="medium" />)}
+                        <Box flex={1}>
+                            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                                Location
+                            </Typography>
+                            <Typography variant="body1">
+                                {activity.venue}, {activity.city}
+                            </Typography>
+                        </Box>
+                        <Button
+                            variant={mapOpen ? "contained" : "outlined"}
+                            color="secondary"
+                            onClick={() => setMapOpen((open) => !open)}
+                        >
+                            {mapOpen ? "Hide map" : "Show map"}
+                        </Button>
+                    </Stack>
+                    <Collapse in={mapOpen} timeout={400} unmountOnExit>
+                        <Box
+                            sx={{
+                                height: { xs: 280, md: 360 },
+                                borderRadius: 3,
+                                overflow: "hidden",
+                                boxShadow: "0 16px 32px rgba(32, 167, 172, 0.15)",
+                            }}
+                        >
+                            <MapComponents
+                                position={[activity.latitude, activity.longitude]}
+                                venue={activity.venue}
+                            />
+                        </Box>
+                    </Collapse>
+                </Stack>
+            </Stack>
         </Paper>
     )
 }

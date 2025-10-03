@@ -1,4 +1,14 @@
-import { Box, debounce, List, ListItemButton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  InputAdornment,
+  List,
+  ListItemButton,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { debounce } from "@mui/material/utils";
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { useController, type FieldValues, type UseControllerProps } from "react-hook-form"
@@ -7,8 +17,8 @@ import type { LocationIQSuggestion } from "src/lib/types";
 type Props<T extends FieldValues> = {
     label: string
 } & UseControllerProps<T> 
-export default function LocationInput<T extends FieldValues>(props: Props<T>) {
-    const { field, fieldState } = useController({ ...props });
+export default function LocationInput<T extends FieldValues>({ label, ...controllerProps }: Props<T>) {
+    const { field, fieldState } = useController({ ...controllerProps });
     const [loading, setLoading] = useState(false);
     const [suggestions, setSuggestions] = useState<LocationIQSuggestion[]>([]);
     const locationUrl = 'https://api.locationiq.com/v1/autocomplete?key=pk.b3fbf44bf06d14d195ffa1ca579f6b8c&limit=5&dedupe=1&'
@@ -39,9 +49,16 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
             }
         }, 500), [locationUrl]
     )
-    const handleChange = async(value: string) =>{
+    useEffect(() => {
+        return () => {
+            if (typeof fetchSuggestion.clear === 'function') {
+                fetchSuggestion.clear();
+            }
+        };
+    }, [fetchSuggestion])
+    const handleChange = (value: string) =>{
         field.onChange(value)
-        await fetchSuggestion(value)
+        fetchSuggestion(value)
     }
     const handleSelect =(location: LocationIQSuggestion) => {
         const city  = location.address?.city
@@ -63,27 +80,48 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
     return (
        <Box>
             <TextField
-                {...props}
+                fullWidth
+                label={label}
+                name={field.name}
                 value={inputValue}
                 onChange={e => handleChange(e.target.value)}
-                fullWidth
+                onBlur={field.onBlur}
                 variant="outlined"
                 error ={!!fieldState.error}
                 helperText ={fieldState.error?.message}
+                InputProps={
+                    loading
+                        ? {
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <CircularProgress size={18} thickness={5} color="secondary" />
+                                </InputAdornment>
+                            ),
+                        }
+                        : undefined
+                }
             />
-            {loading && <Typography>Loading...</Typography>}
             {suggestions.length > 0 && (
-                <List sx={{border:1}}>
-                    {suggestions.map(suggestions => (
-                        <ListItemButton
-                            divider
-                            key={suggestions.place_id}
-                            onClick={() => handleSelect(suggestions)}
-                        >
-                            {suggestions.display_name}
-                        </ListItemButton>
-                    ))}
-                </List>
+                <Paper elevation={6} sx={{ mt: 1, borderRadius: 3 }}>
+                    <List>
+                        {suggestions.map((suggestion) => (
+                            <ListItemButton
+                                divider
+                                key={suggestion.place_id}
+                                onClick={() => handleSelect(suggestion)}
+                            >
+                                <Typography variant="body2" fontWeight={500}>
+                                    {suggestion.display_name}
+                                </Typography>
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Paper>
+            )}
+            {!loading && inputValue.length > 2 && suggestions.length === 0 && (
+                <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1 }}>
+                    No matches yet—try refining your search.
+                </Typography>
             )}
        </Box>
     )

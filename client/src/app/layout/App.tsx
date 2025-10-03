@@ -9,7 +9,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <Box sx={{ bgcolor: '#eeeeee', minHeight: '100vh' }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <CssBaseline />
       {location.pathname == '/' ? <HomePage /> : (
         <>
