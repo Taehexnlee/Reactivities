@@ -5,12 +5,12 @@ import ActivityDashBoard from "../../features/activities/dashboard/ActivityDashB
 import ActivityForm from "../../features/activities/form/ActivityForm";
 import ActivityDetailPage from "../../features/activities/details/ActivityDetailPage";
 import Counter from "../../features/counter/Counter";
-import TestErrors from "../../features/home/errors/TestError";
-import NotFound from "../../features/home/errors/NotFound";
-import ServerError from "../../features/home/errors/ServerError";
-import LoginForm from "src/features/account/loginForm";
 import RequiredAuth from "./RequiredAuth";
 import RegisterForm from "src/features/account/RegisterForm";
+import TestErrors from "src/features/errors/TestError";
+import NotFound from "src/features/errors/NotFound";
+import ServerError from "src/features/errors/ServerError";
+import LoginForm from "src/features/account/LoginForm";
 
 export const router = createBrowserRouter([
     {

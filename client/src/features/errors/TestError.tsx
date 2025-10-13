@@ -1,7 +1,7 @@
 import { Alert, Button, ButtonGroup, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import {useState} from "react";
-import agent from '../../../lib/api/agent';
+import agent from 'src/lib/api/agent';
 
 export default function TestErrors() {
     const [validationErrors, setValidationErrors] = useState<string[]>([]);

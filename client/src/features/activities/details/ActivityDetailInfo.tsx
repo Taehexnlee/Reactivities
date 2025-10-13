@@ -1,7 +1,6 @@
 import { CalendarToday, Info, Place } from "@mui/icons-material";
 import { Box, Button, Collapse, Divider, Paper, Stack, Typography } from "@mui/material";
 import { formatDate } from "../../../lib/util/util";
-import type { Activity } from "src/lib/types";
 import { useState, type ReactNode } from "react";
 import MapComponents from "src/app/shared/components/MapComponents";
 
@@ -66,6 +65,7 @@ export default function ActivityDetailsInfo({activity}: Props) {
                             </Typography>
                         </Box>
                         <Button
+                            sx={{whiteSpace: 'nowrap'}}
                             variant={mapOpen ? "contained" : "outlined"}
                             color="secondary"
                             onClick={() => setMapOpen((open) => !open)}
