@@ -33,5 +33,7 @@ public class MappingProfiles : AutoMapper.Profile
             .ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.User.ImageUrl))
             .ForMember(d => d.Bio, opt => opt.MapFrom(s => s.User.Bio));
 
+        CreateMap<User, UserProfile>();
+
     }
 }
