@@ -5,9 +5,8 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 type PickerProps = ComponentProps<typeof DateTimePicker>;
 
 type Props<T extends FieldValues> =
-  UseControllerProps<T> &
-  Omit<PickerProps, "value" | "onChange" | "slotProps">;
-
+   UseControllerProps<T> &
+   Omit<PickerProps, "value" | "onChange">;
 export default function DateTimeInput<T extends FieldValues>({
   control,
   name,
