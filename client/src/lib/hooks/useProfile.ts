@@ -2,93 +2,127 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
 import { useMemo } from "react";
 
-export const useProfile = (id?: string) => {
-    const queryClient = useQueryClient();
+export const useProfile = (id?: string, predicate?: string) => {
+  const queryClient = useQueryClient();
+
+  // 프로필: predicate가 없을 때만 실행
   const { data: profile, isLoading: loadingProfile } = useQuery<Profile>({
     queryKey: ["profile", id],
     queryFn: async () => {
       const response = await agent.get<Profile>(`/profiles/${id}`);
       return response.data;
     },
-    enabled: !!id
-    
+    enabled: !!id && !predicate,
   });
 
-  const {data: photos, isLoading: loadingPhotos} = useQuery<Photo[]>({
-    queryKey:['photos', id],
-    queryFn: async() => {
-        const response = await agent.get<Photo[]>(`/profiles/${id}/photos`)
-        return response.data;
+  // 사진: predicate가 없을 때만 실행
+  const { data: photos, isLoading: loadingPhotos } = useQuery<Photo[]>({
+    queryKey: ["photos", id],
+    queryFn: async () => {
+      const response = await agent.get<Photo[]>(`/profiles/${id}/photos`);
+      return response.data;
     },
-    enabled: !!id
+    enabled: !!id && !predicate,
+  });
+
+  // 팔로워/팔로잉 목록: predicate가 있을 때만 실행
+  const { data: following, isLoading: loadingFollowings } = useQuery<Profile[]>({
+    queryKey: ["followings", id, predicate],
+    queryFn: async () => {
+      const response = await agent.get<Profile[]>(
+        `/profiles/${id}/follow-list?predicate=${predicate}`
+      );
+      return response.data;
+    },
+    enabled: !!id && !!predicate,
   });
 
   const uploadPhoto = useMutation({
-    mutationFn: async(file: Blob) => {
+    mutationFn: async (file: Blob) => {
       const formData = new FormData();
-      formData.append('file', file);
-      const response = await agent.post('/profiles/add-photo', formData, {
-        headers: {'Content-Type' : 'multipart/form-data'}
-
-      })
+      formData.append("file", file);
+      const response = await agent.post("/profiles/add-photo", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.data;
     },
-    onSuccess: async (photo: Photo) =>{
-      await queryClient.invalidateQueries({
-        queryKey: ['photos', id]
+    onSuccess: async (photo: Photo) => {
+      await queryClient.invalidateQueries({ queryKey: ["photos", id] });
+      queryClient.setQueryData(["user"], (data: User) => {
+        if (!data) return data;
+        return { ...data, imageUrl: data.imageUrl ?? photo.url };
       });
-      queryClient.setQueryData(['user'], (data: User) => {
-        if(!data) return data;
-        return {
-          ...data,
-          imageUrl: data.imageUrl ?? photo.url
-        }
-      })
-      queryClient.setQueryData(['profile', id], (data: Profile) => {
-        if(!data) return data;
-        return {
-          ...data,
-          imageUrl: data.imageUrl ?? photo.url
-        }
-      })
-    }
-  })
+      queryClient.setQueryData(["profile", id], (data: Profile) => {
+        if (!data) return data;
+        return { ...data, imageUrl: data.imageUrl ?? photo.url };
+      });
+    },
+  });
 
   const setMainPhoto = useMutation({
-    mutationFn: async(photo: Photo) =>{
-      await agent.put(`/profiles/${photo.id}/setMain`)
+    mutationFn: async (photo: Photo) => {
+      await agent.put(`/profiles/${photo.id}/setMain`);
     },
-    onSuccess: (_ , photo) => {
-      queryClient.setQueryData(['user'], (userData: User) => {
-        if(!userData) return userData;
-        return {
-          ...userData,
-          imageUrl: photo.url
-        }
-      })
-      queryClient.setQueryData(['profile', id], (profile: Profile) => {
-        if(!profile) return profile;
-        return {
-          ...profile,
-          imageUrl: photo.url
-        }
-      })
-    }
-  })
+    onSuccess: (_, photo) => {
+      queryClient.setQueryData(["user"], (userData: User) => {
+        if (!userData) return userData;
+        return { ...userData, imageUrl: photo.url };
+      });
+      queryClient.setQueryData(["profile", id], (p: Profile) => {
+        if (!p) return p;
+        return { ...p, imageUrl: photo.url };
+      });
+    },
+  });
+
   const deletePhoto = useMutation({
     mutationFn: async (photoId: string) => {
       await agent.delete(`/profiles/${photoId}/photos`);
     },
-      onSuccess: (_, photoId) => {
-      queryClient.setQueryData<Photo[]>(["photos", id], (photos) =>
-        photos?.filter((x) => x.id !== photoId)
+    onSuccess: (_, photoId) => {
+      queryClient.setQueryData<Photo[]>(["photos", id], (arr) =>
+        arr?.filter((x) => x.id !== photoId)
       );
     },
   });
-  
-  const isCurrentUser = useMemo(() => {
-    return id === queryClient.getQueryData<User>(['user'])?.id
-  },[id, queryClient])
 
-  return { profile, loadingProfile,photos, loadingPhotos, isCurrentUser, uploadPhoto, setMainPhoto,deletePhoto};
+  const updateFollowing = useMutation({
+    mutationFn: async () => {
+      if (!id) return;
+      await agent.post(`/profiles/${id}/follow`);
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(["profile", id], (p: Profile) => {
+        queryClient.invalidateQueries({queryKey: ['followings' , id, 'followers']})
+        if (!p || p.followersCount === undefined) return p;
+        return {
+          ...p,
+          following: !p.following,
+          followersCount: p.following
+            ? p.followersCount - 1
+            : p.followersCount + 1,
+        };
+      });
+      // followers 탭만 즉시 동기화
+      queryClient.invalidateQueries({ queryKey: ["followings", id, "followers"] });
+    },
+  });
+
+  const isCurrentUser = useMemo(() => {
+    return id === queryClient.getQueryData<User>(["user"])?.id;
+  }, [id, queryClient]);
+
+  return {
+    profile,
+    loadingProfile,
+    photos,
+    loadingPhotos,
+    isCurrentUser,
+    uploadPhoto,
+    setMainPhoto,
+    deletePhoto,
+    updateFollowing,
+    loadingFollowings,
+    following,
+  };
 };

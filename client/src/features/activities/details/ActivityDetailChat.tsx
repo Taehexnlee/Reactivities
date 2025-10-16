@@ -23,7 +23,6 @@ const ActivityDetailsChat = observer(function ActivityDetailsChat() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // Enter = 전송, Shift+Enter = 줄바꿈
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       void handleSubmit(addComment)();
