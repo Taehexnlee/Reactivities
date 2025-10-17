@@ -16,7 +16,7 @@ function App() {
       {location.pathname == '/' ? <HomePage /> : (
         <>
           <Navbar />
-          <Container maxWidth='xl' sx={{ mt: 3 }}>
+          <Container maxWidth='xl' sx={{ pt: 3 }}>
             <Outlet />
           </Container>
 

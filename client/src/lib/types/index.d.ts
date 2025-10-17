@@ -1,4 +1,9 @@
-type Activity = {
+
+export type PagedList<T, TCursor> = {
+  items: T[],
+  nextCursor : TCursor
+}
+export type Activity = {
     id: string
     title: string
     date: string
@@ -16,7 +21,7 @@ type Activity = {
     hostDisplayName: string
     hostImageUrl? : string
 }
-type Profile = {
+export type Profile = {
 
   id: string
   displayName: string
@@ -27,12 +32,29 @@ type Profile = {
   following?: boolean
 }
 
-type Photo ={
+export type Photo ={
   id: string
   url: string
   
 }
-type LocationIQSuggestion = {
+export type UserActivity = {
+  id: string
+  title: string
+  category: string
+  date: string
+}
+export type CreateActivityRequest = {
+  title: string
+  description: string
+  category: string
+  date: string
+  city: string
+  venue: string
+  latitude: number
+  longitude: number
+}
+export type EditActivityRequest = CreateActivityRequest & { id: string }
+export type LocationIQSuggestion = {
   place_id: string
   osm_id: string
   osm_type: string
@@ -48,7 +70,7 @@ type LocationIQSuggestion = {
   address: LocationIQAddress
 }
 
-type ChatCommnet = {
+export type ChatCommnet = {
   id: string
   createdAt : Date 
   body : string
@@ -57,14 +79,14 @@ type ChatCommnet = {
   imageUrl? : string
 }
 
-type User  ={
+export type User  ={
   id:string,
   email: string, 
   displayName: string,
   imageUrl?: string 
 }
 
-type LocationIQAddress = {
+export type LocationIQAddress = {
   name: string
   road?: string
   neighbourhood?: string
@@ -78,3 +100,20 @@ type LocationIQAddress = {
   country: string
   country_code: string
 }
+
+declare global {
+  // Allow usage without explicit imports while still supporting module imports.
+  type PagedList<T, TCursor> = import("./index").PagedList<T, TCursor>;
+  type Activity = import("./index").Activity;
+  type Profile = import("./index").Profile;
+  type Photo = import("./index").Photo;
+  type UserActivity = import("./index").UserActivity;
+  type LocationIQSuggestion = import("./index").LocationIQSuggestion;
+  type ChatCommnet = import("./index").ChatCommnet;
+  type User = import("./index").User;
+  type LocationIQAddress = import("./index").LocationIQAddress;
+  type CreateActivityRequest = import("./index").CreateActivityRequest;
+  type EditActivityRequest = import("./index").EditActivityRequest;
+}
+
+export {};

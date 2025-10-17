@@ -1,10 +1,10 @@
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useActivities } from "../../../lib/hooks/useActivities";
 import { useNavigate, useParams } from "react-router";
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver, type SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { activitySchema, type ActivitySchema } from "../../../lib/schemas/activitySchema";
-import { zodResolver } from '@hookform/resolvers/zod';
 import TextInput from "src/app/shared/components/TextInput";
 import SelectInput from "src/app/shared/components/SelectInput";
 import { categoryOptions } from "./categoryOptions";
@@ -12,46 +12,74 @@ import DateTimeInput from "src/app/shared/components/DateTimeInput";
 import LocationInput from "src/app/shared/components/LocationInput";
 
 export default function ActivityForm() {
+  const resolver = zodResolver(activitySchema) as Resolver<ActivitySchema>;
   const { control, reset, handleSubmit } = useForm<ActivitySchema>({
-    mode: 'onTouched',
-    resolver: zodResolver(activitySchema),
+    mode: "onTouched",
+    resolver,
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      date: new Date(Date.now() + 60 * 60 * 1000),
+      location: {
+        venue: "",
+        city: "",
+        latitude: 0,
+        longitude: 0,
+      },
+    },
   });
   const navigate = useNavigate();
   const { id } = useParams();
-  const { updateActivity, createActivity, activity, isLoadingActivity } = useActivities(id);
+  const {
+    updateActivity,
+    createActivity,
+    activity,
+    isLoadingActivity,
+  } = useActivities(id);
 
   useEffect(() => {
-    if (activity) reset({
-      ...activity,
-      location:{
-        city:activity.city,
-        venue : activity.venue,
+    if (!activity) return;
+    reset({
+      title: activity.title,
+      description: activity.description,
+      category: activity.category,
+      date: new Date(activity.date),
+      location: {
+        city: activity.city,
+        venue: activity.venue,
         latitude: activity.latitude,
-        longitude: activity.longitude
-      }
+        longitude: activity.longitude,
+      },
     });
-  }, [activity, reset])
+  }, [activity, reset]);
 
-  const onSubmit = async (data: ActivitySchema) => {
-    const {location, ...rest} = data;
-    const flattenedData = {...rest, ...location}
+  const onSubmit: SubmitHandler<ActivitySchema> = async (data) => {
+    const { location, ...rest } = data;
+    const payload: CreateActivityRequest = {
+      ...rest,
+      ...location,
+      date: data.date.toISOString(),
+    };
     try {
-      if(activity){
-        updateActivity.mutate({...activity, ...flattenedData}, {
-          onSuccess:() => navigate(`/activities/${activity.id}`)
-        })
-      }else
-      {
-        createActivity.mutate(flattenedData, {
-          onSuccess: (id) => navigate(`/activities/${id}`)
-        }) 
+      if (activity) {
+        updateActivity.mutate(
+          { id: activity.id, ...payload },
+          {
+            onSuccess: () => navigate(`/activities/${activity.id}`),
+          }
+        );
+      } else {
+        createActivity.mutate(payload, {
+          onSuccess: (newId) => navigate(`/activities/${newId}`),
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  if (isLoadingActivity) return <Typography>Loading... </Typography>
+  if (isLoadingActivity) return <Typography>Loading... </Typography>;
 
   const isMutating = updateActivity.isPending || createActivity.isPending;
 

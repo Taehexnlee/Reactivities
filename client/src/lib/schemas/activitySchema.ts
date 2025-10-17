@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, type infer as Infer } from 'zod';
 import { requiredString } from '../util/util';
 
 
@@ -28,4 +28,4 @@ export const activitySchema = z.object({
   }),
 });
 
-export type ActivitySchema = z.infer<typeof activitySchema>;
+export type ActivitySchema = Infer<typeof activitySchema>;

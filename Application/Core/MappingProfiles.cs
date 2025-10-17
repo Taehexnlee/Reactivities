@@ -47,5 +47,6 @@ public class MappingProfiles : AutoMapper.Profile
             .ForMember(d => d.UserId, o => o.MapFrom(s => s.User.Id))
             .ForMember(d => d.ImageUrl, o => o.MapFrom(s => s.User.ImageUrl));
 
+        CreateMap<Activity, UserActivityDto>();
     }
 }

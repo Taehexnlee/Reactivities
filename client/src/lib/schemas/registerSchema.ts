@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type infer as Infer } from "zod";
 import { requiredString } from "../util/util";
 
 export const registerSchema = z.object({
@@ -7,4 +7,4 @@ export const registerSchema = z.object({
     password: requiredString('password')
 });
 
-export type RegisterSchema = z.infer<typeof registerSchema>
+export type RegisterSchema = Infer<typeof registerSchema>

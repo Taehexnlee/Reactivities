@@ -8,9 +8,17 @@ export default function ActivityDashBoard() {
     <Grid container>
       <Grid size={8}>
         <ActivityList/>
+        
       </Grid>
 
-      <Grid size={4}>
+      <Grid 
+        size={4}
+        sx={{
+          position: 'sticky',
+          top:112,
+          alignSelf: 'flex-start'
+        }}
+      >
         <ActivityFilters/>
       </Grid>
     </Grid>

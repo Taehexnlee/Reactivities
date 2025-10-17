@@ -7,6 +7,7 @@ import Tab from "@mui/material/Tab";
 import ProfilePhoto from "./ProfilePhoto";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFollowings from "./ProfileFollowing";
+import ProfileActivities from "./ProfileActivities";
 
 type TabContent = {
   label: string;
@@ -24,7 +25,7 @@ export default function ProfileContent() {
   const tabContent: TabContent[] = [
     { label: "About",     contents: <ProfileAbout/> },
     { label: "Photos",    contents: <ProfilePhoto /> },
-    { label: "Events",    contents: <div>events</div> },
+    { label: "Events",    contents: <ProfileActivities/>},
     { label: "Followers", contents: <ProfileFollowings activeTab={value}/> },
     { label: "Following", contents: <ProfileFollowings activeTab={value}/>  },
   ];
