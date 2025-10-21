@@ -1,0 +1,16 @@
+/Users/leeteaheon/Reactivities/Persistence/bin/Release/net8.0/Persistence.deps.json
+/Users/leeteaheon/Reactivities/Persistence/bin/Release/net8.0/Persistence.dll
+/Users/leeteaheon/Reactivities/Persistence/bin/Release/net8.0/Persistence.pdb
+/Users/leeteaheon/Reactivities/Persistence/bin/Release/net8.0/Domain.dll
+/Users/leeteaheon/Reactivities/Persistence/bin/Release/net8.0/Domain.pdb
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.csproj.AssemblyReference.cache
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.GeneratedMSBuildEditorConfig.editorconfig
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.AssemblyInfoInputs.cache
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.AssemblyInfo.cs
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.csproj.CoreCompileInputs.cache
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.sourcelink.json
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persiste.61C28332.Up2Date
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.dll
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/refint/Persistence.dll
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/Persistence.pdb
+/Users/leeteaheon/Reactivities/Persistence/obj/Release/net8.0/ref/Persistence.dll
