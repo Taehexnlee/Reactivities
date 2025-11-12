@@ -1,6 +1,6 @@
-# Reactivities
+# ActivityHub
 
-Reactivities is a full-stack social events platform built with **ASP.NET Core 8**, **Entity Framework Core**, **MediatR**, and a **React 19 + Vite** client. Users can browse and join activities, chat in real time via **SignalR**, upload photos to **Cloudinary**, and receive email confirmations sent by **Resend**. The repository is organised as a clean architecture solution with separate Domain, Application, Infrastructure, Persistence, API, and client layers.
+ActivityHub is a full-stack social events platform built with **ASP.NET Core 8**, **Entity Framework Core**, **MediatR**, and a **React 19 + Vite** client. Users can browse and join activities, chat in real time via **SignalR**, upload photos to **Cloudinary**, and receive email confirmations sent by **Resend**. The repository is organised as a clean architecture solution with separate Domain, Application, Infrastructure, Persistence, API, and client layers.
 
 ---
 
